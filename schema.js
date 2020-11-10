@@ -9,14 +9,14 @@ const typeDefs = gql`
     parentId1: ID
     parentId2: ID
     hometown: String
-    spouse(id: ID!): Person
-    parent1(id: ID!): Person
-    parent2(id: ID!): Person
+    spouse: Person
+    parent1: Person
+    parent2: Person
   }
 
   type Query {
     allPeople: [Person]
-    person(id: ID!): Person
+    person(id: ID): Person
   }
 `;
 
