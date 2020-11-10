@@ -4,15 +4,24 @@ import { gql, useQuery } from '@apollo/client';
 import Link from 'next/link';
 
 const GET_PERSON = gql`
-query Person($id: ID!) {
-    Person(id: $id) {
+query person($id: ID!) {
+    person(id: $id) {
         id
         name
         born
-        spouseId
+        spouse {
+            id
+            name
+        }
         hometown
-        parentId1
-        parentId2
+        parent1 {
+            id
+            name
+        }
+        parent2 {
+            id
+            name
+        }
     }
   }
 `;
@@ -45,7 +54,7 @@ export default function ProfileDetailsPage() {
     if (loading) return 'Loading...';
     if (error) return `Error! ${error.message}`;
     console.log(data)
-    const { Person: person } = data;
+    const { person } = data;
 
     return (
         <div>
@@ -55,27 +64,28 @@ export default function ProfileDetailsPage() {
                     Hometown: {person.hometown}
                 </li>
                 <li>
-                    Spouse: <Link
-                        href={`/${person.spouseId}`}
+                    Spouse: {person.spouse ? <Link
+                        href={`/${person.spouse.id}`}
                     >
-                        <a>{person.spouseId}</a>
-                    </Link>
+                        <a>{person.spouse.name}</a>
+                    </Link> : 'No Spouse'}
                 </li>
                 <li>
-                    Parent 1: 
+                    Parent 1: {person.parent1 ?
                     <Link
-                        href={`/${person.parentId1}`}
-                    >
-                        <a>{person.parentId1}</a>
-                    </Link>
+                        href={`/${person.parent1.id}`}
+                        >
+                            <a>{person.parent1.name}</a>
+                    </Link> : 'Unknown'}
                 </li>
                 <li>
                 Parent 2:
-                <Link
-                    href={`/${person.parentId2}`}
-                >
-                    <a>{person.parentId2}</a>
-                </Link>
+                {person.parent2 ?
+                    <Link
+                        href={`/${person.parent2.id}`}
+                        >
+                            <a>{person.parent2.name}</a>
+                    </Link> : 'Unknown'}
                 </li>
             </ul>
         </div>
