@@ -12,6 +12,7 @@ const typeDefs = gql`
     spouse: Person
     parent1: Person
     parent2: Person
+    children: [Person]
   }
 
   type Query {

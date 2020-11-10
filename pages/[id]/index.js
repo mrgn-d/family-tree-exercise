@@ -22,26 +22,20 @@ query person($id: ID!) {
             id
             name
         }
-    }
-  }
-`;
-
-const GET_FAMILY = gql`
-query Person($id: ID!) {
-    Person(id: $id) {
-        id
+        children {
+            id
+            name
+        }
     }
   }
 `;
 
 export default function ProfileDetailsPage() {
     const router = useRouter();
-    console.log(router)
     if (!router.query) {
         return 'LOAING!'
     }
     const personId = router.query.id;
-    console.log(router.query.id)
 
     if (!personId) {
         return null
@@ -53,8 +47,18 @@ export default function ProfileDetailsPage() {
 
     if (loading) return 'Loading...';
     if (error) return `Error! ${error.message}`;
-    console.log(data)
+    console.log(data.person)
     const { person } = data;
+
+    const childrenComp = () => person.children.map((p) => {
+        return <Link
+            href={`/${p.id}`}
+            >
+                <a>{p.name}</a>
+        </Link>
+    })
+
+    console.log(childrenComp)
 
     return (
         <div>
@@ -64,14 +68,14 @@ export default function ProfileDetailsPage() {
                     Hometown: {person.hometown}
                 </li>
                 <li>
-                    Spouse: {person.spouse ? <Link
+                    Spouse: &nbsp; {person.spouse ? <Link
                         href={`/${person.spouse.id}`}
                     >
                         <a>{person.spouse.name}</a>
                     </Link> : 'No Spouse'}
                 </li>
                 <li>
-                    Parent 1: {person.parent1 ?
+                    Parent 1: &nbsp; {person.parent1 ?
                     <Link
                         href={`/${person.parent1.id}`}
                         >
@@ -79,13 +83,25 @@ export default function ProfileDetailsPage() {
                     </Link> : 'Unknown'}
                 </li>
                 <li>
-                Parent 2:
+                Parent 2: &nbsp;
                 {person.parent2 ?
                     <Link
                         href={`/${person.parent2.id}`}
                         >
                             <a>{person.parent2.name}</a>
                     </Link> : 'Unknown'}
+                </li>
+                <li>
+                Children: &nbsp;
+                {person.children  && person.children.length > 0 ?
+                        person.children.map((p, id) => {
+                            return <Link
+                                href={`/${p.id}`}
+                                >
+                                    <a>{p.name}</a>
+                            </Link> 
+                        }).reduce((prev, curr) => [prev, ', ', curr])
+                 : 'Unknown'}
                 </li>
             </ul>
         </div>

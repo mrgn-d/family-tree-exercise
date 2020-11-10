@@ -14,12 +14,16 @@ const getPersonWithRelations = (id) => {
     const spouse = data.people.find((p) => p.id == spouseId)
     const parent1 = data.people.find((p) => p.id == parentId1)
     const parent2 = data.people.find((p) => p.id == parentId2)
+    const children = data.people.filter((p) => id == p.parentId1 || id == p.parentId2)
+
+    console.log(children)
 
     return {
         ...person,
         spouse,
         parent1,
-        parent2
+        parent2,
+        children
     }
 }
 
