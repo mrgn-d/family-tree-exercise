@@ -14,8 +14,9 @@ const typeDefs = gql`
     parent2(id: ID!): Person
   }
 
-  type allPeople {
-      people: [Person]!
+  type Query {
+    allPeople: [Person]
+    person(id: ID!): Person
   }
 `;
 
