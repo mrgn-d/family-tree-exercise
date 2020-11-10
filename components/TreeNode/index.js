@@ -11,7 +11,7 @@ export default function TreeNode({ person }) {
                     height: 50px;
                     width: 200px;
                     background-color: #DADED4;
-                    border: 1px solid #3C403D;
+                    border: 1px solid #a6bdb7;
                     padding: 8px;
                     margin: 4px;
                 `}
