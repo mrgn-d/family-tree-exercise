@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import { gql, useQuery } from '@apollo/client';
+import Tree from 'components/Tree';
 
 import Link from 'next/link';
 
@@ -33,7 +34,7 @@ query person($id: ID!) {
 export default function ProfileDetailsPage() {
     const router = useRouter();
     if (!router.query) {
-        return 'LOAING!'
+        return 'LOADING!'
     }
     const personId = router.query.id;
 
@@ -58,10 +59,15 @@ export default function ProfileDetailsPage() {
         </Link>
     })
 
-    console.log(childrenComp)
-
     return (
         <div>
+            <Link
+                    href="/"
+                >
+                    <a>
+                    Back to Family Tree
+                    </a>
+                </Link>
             <h1>{person.name}</h1>
             <ul>
                 <li>
@@ -104,6 +110,7 @@ export default function ProfileDetailsPage() {
                  : 'Unknown'}
                 </li>
             </ul>
+            <Tree person={person} />
         </div>
     );
 }
